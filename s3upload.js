@@ -99,6 +99,11 @@ S3Upload.prototype.executeOnSignedUrl = function(file, callback) {
                 this.onError('Invalid response from server', file);
                 return false;
             }
+            if(result['overwrite'] && result['overwrite'] == true) {
+              if (confirm('This file already exists. Overwrite?') == false) {
+                return;
+              }
+            }
             return callback(result);
         } else if (xhr.readyState === 4 && xhr.status !== 200) {
             return this.onError('Could not contact request signing server. Status = ' + xhr.status, file);
